@@ -1,17 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+const apiKey = 'xoQVdmhCi6FsxFGhkYot4oBrcDohBUcX';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const requestHttp = fetch(`http://api.giphy.com/v1/gifs/random?api_key=${ apiKey }`);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+requestHttp
+    .then( resp => resp.json() )
+    .then( ({ data }) => {
+      const { url } = data.images.original;
+      console.log( url )
+
+      const img = document.createElement('img');
+      img.src = url;
+
+      document.body.append( img );
+
+    })
+    .catch( console.warn );
